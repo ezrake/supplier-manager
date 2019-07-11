@@ -13,8 +13,8 @@ class Department extends Model
         return $this->hasMany('App\Models\Users');
     }
 
-    public function requests()
+    public function requisitions()
     {
-        return $this->hasMany('App\Models\Requests');
+        return $this->hasMany('App\Models\Requisition');
     }
 }
