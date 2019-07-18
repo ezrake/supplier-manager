@@ -14,8 +14,8 @@ class AddRolesAndDepartmentToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->addColumn('integer', 'department_id', ['unsigned' => true]);
-            $table->addColumn('integer', 'role_id', ['unsigned' => true]);
+            $table->integer('department_id', false, true);
+            $table->integer('role_id', false, true);
             $table->foreign('department_id')->references('id')
                 ->on('departments');
             $table->foreign('role_id')->references('id')
