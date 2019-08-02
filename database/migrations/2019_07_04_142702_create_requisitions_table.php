@@ -21,7 +21,6 @@ class CreateRequisitionsTable extends Migration
                 'waiting', 'approved',
                 'rejected', 'delivered'
             ]);
-            $table->json('details');
             $table->timestamps();
             $table->foreign('department_id')->references('id')
                 ->on('departments');

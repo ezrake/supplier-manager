@@ -27,6 +27,11 @@ class Order extends Model
         return $this->belongsTo('App\Models\Tender');
     }
 
+    public function requisitions()
+    {
+        return $this->hasMany('App\Models\Requisition');
+    }
+
     public function payments()
     {
         return $this->hasMany('App\Models\Payment');

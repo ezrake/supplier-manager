@@ -20,4 +20,9 @@ class Requisition extends Model
     {
         return $this->belongsTo('App\Models\Department');
     }
+
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Requisition');
+    }
 }
