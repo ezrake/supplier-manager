@@ -16,11 +16,6 @@ class Requisition extends Model
         'updated_at',
     ];
 
-    public function tender()
-    {
-        return $this->belongsTo('App\Models\Tender');
-    }
-
     public function department()
     {
         return $this->belongsTo('App\Models\Department');

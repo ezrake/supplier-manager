@@ -18,11 +18,6 @@ class Tender extends Model
         'expiry'
     ];
 
-    public function requisitions()
-    {
-        return $this->hasMany('App\Models\Requisition');
-    }
-
     public function supplier()
     {
         return $this->hasOne('App\Models\Supplier');
