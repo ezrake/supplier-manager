@@ -17,8 +17,8 @@ class CreateSuppliersTable extends Migration
             $table->increments('id');
             $table->bigInteger('user_id', false, true);
             $table->integer('tender_id', false, true);
-            $table->string('address');
-            $table->json('details');
+            $table->json('contacts');
+            $table->json('account');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')
