@@ -30,14 +30,36 @@ $factory->state(Requisition::class, 'waiting', [
     'status' => 'waiting'
 ]);
 
-$factory->state(Requisition::class, 'approved', [
-    'status' => 'approved'
-]);
+$factory->state(Requisition::class, 'approved', function ($faker) {
+    return [
+        'status' => 'approved',
+        'order_id' => null
+    ];
+});
+
+$factory->state(Requisition::class, 'assigned', function ($faker) {
+    return [
+        'status' => 'approved',
+        'order_id' => $faker->randomElement(
+            App\Models\Order::where('delivered', '<>', 'true')
+                ->get()
+                ->pluck('id')
+        )
+    ];
+});
 
 $factory->state(Requisition::class, 'rejected', [
     'status' => 'rejected'
 ]);
 
-$factory->state(Requisition::class, 'delivered', [
-    'status' => 'delivered'
-]);
+$factory->state(Requisition::class, 'delivered', function ($faker) {
+    return [
+        'status' => 'delivered',
+        'order_id' => $faker->randomElement(
+            App\Models\Order::where('delivered', 'true')
+                ->orWhere('is_deleted, true')
+                ->get()
+                ->pluck('id')
+        )
+    ];
+});
