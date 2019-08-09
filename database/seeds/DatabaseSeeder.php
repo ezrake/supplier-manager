@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             DepartmentsTableSeeder::class,
             UsersTableSeeder::class,
-            RequisitionsTableSeeder::class,
             TendersTableSeeder::class,
             SuppliersTableSeeder::class,
             OrdersTableSeeder::class,
+            RequisitionsTableSeeder::class,
             PaymentsTableSeeder::class
         ]);
     }
