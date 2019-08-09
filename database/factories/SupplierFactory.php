@@ -11,7 +11,7 @@ $factory->define(Supplier::class, function (Faker $faker) {
             'telephone' => $faker->phoneNumber,
             'address' => $faker->address
         ]),
-        'account' => $faker->creditCardDetails,
+        'account' => json_encode($faker->creditCardDetails),
         'user_id' => function () {
             return factory(App\Models\User::class)
                 ->states('company')
