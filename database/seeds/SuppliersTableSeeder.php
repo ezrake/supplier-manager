@@ -12,6 +12,6 @@ class SuppliersTableSeeder extends Seeder
     public function run()
     {
         //each supplier makes corresponding tender and user
-        factory(App\Models\User::class, 20)->create();
+        factory(App\Models\Supplier::class, 20)->create();
     }
 }
