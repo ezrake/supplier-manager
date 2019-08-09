@@ -36,6 +36,8 @@ $factory->state(Order::class, 'delivered', [
     'delivered' => true
 ]);
 
-$factory->state(Order::class, 'isDeleted', [
-    'is_deleted' => true
-]);
+$factory->state(Order::class, 'isDeleted', function ($faker) {
+    return [
+        'deleted_at' => $faker->dateTimeThisYear('now')
+    ];
+});
