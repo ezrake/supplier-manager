@@ -14,7 +14,7 @@ $factory->define(Supplier::class, function (Faker $faker) {
         'account' => json_encode($faker->creditCardDetails),
         'user_id' => function () {
             return factory(App\Models\User::class)
-                ->states('company')
+                ->state('supplier')
                 ->create()->id;
         },
         'tender_id' => function () {
