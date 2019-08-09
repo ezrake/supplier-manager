@@ -7,10 +7,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Payment::class, function (Faker $faker) {
     return [
-        'order_id' => function ($faker) {
-            return $faker->randomElement(
+        'order_id' => function () {
+            return Arr::random(
                 App\Models\Order::all()
-                    ->pluck('id')
+                    ->pluck('id')->toArray()
             );
         },
         'amount' => $faker->numberBetween(40000, 100000),

@@ -20,10 +20,9 @@ $factory->define(Order::class, function (Faker $faker) {
 
     return [
         'details' => json_encode($details),
-        'supplier_id' => function ($faker) {
-            return $faker->randomElement(
-                App\Models\Supplier::all()
-                    ->pluck('id')
+        'supplier_id' => function () {
+            return Arr::random(
+                App\Models\Supplier::all()->pluck('id')->toArray()
             );
         },
         'tender_id' => function (array $order) {
