@@ -36,19 +36,21 @@ $factory->state(User::class, 'supplier', function ($faker) {
             'name' => $faker->company,
             'email' => $faker->companyEmail,
             'role_id' => App\Models\Role::where('role', 'supplier')
-                ->pluck('id'),
+                ->get()->first()->id,
             'department_id' => null
         ];
 });
 
-$factory->state(User::class, 'admin', [
-    'role_id' => App\Models\Role::where('role', 'admin')
-        ->pluck('id')
-]);
+$factory->state(User::class, 'admin', function () {
+    return [
+        'role_id' => App\Models\Role::where('role', 'admin')
+            ->get()->first()->id
+    ];
+});
 
 $factory->state(User::class, 'department', function ($faker) {
     return [
         'role_id' => App\Models\Role::where('role', 'department')
-            ->pluck('id')
+            ->get()->first()->id
     ];
 });

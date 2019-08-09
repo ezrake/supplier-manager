@@ -57,7 +57,6 @@ $factory->state(Requisition::class, 'delivered', function ($faker) {
         'status' => 'delivered',
         'order_id' => $faker->randomElement(
             App\Models\Order::where('delivered', 'true')
-                ->orWhere('is_deleted, true')
                 ->get()
                 ->pluck('id')
         )
