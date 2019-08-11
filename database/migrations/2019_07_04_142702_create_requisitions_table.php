@@ -16,18 +16,14 @@ class CreateRequisitionsTable extends Migration
         Schema::create('requisitions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('department_id', false, true);
-            $table->integer('tender_id', false, true);
             $table->json('items');
             $table->enum('status', [
                 'waiting', 'approved',
                 'rejected', 'delivered'
             ]);
-            $table->json('details');
             $table->timestamps();
             $table->foreign('department_id')->references('id')
                 ->on('departments');
-            $table->foreign('tender_id')->references('id')
-                ->on('tenders');
         });
     }
 
