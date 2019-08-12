@@ -47,8 +47,8 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Role');
     }
 
-    public function suppliers()
+    public function supplier()
     {
-        return $this->hasMany('App\Models\Supplier');
+        return $this->hasOne('App\Models\Supplier');
     }
 }
