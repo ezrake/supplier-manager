@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Requisition extends Model
 {
+    protected $fillable = [
+        'department_id', 'order_id', 'items', 'status'
+    ];
+
     protected $casts = [
         'items' => 'array',
-        'details' => 'array'
     ];
 
     protected $dates = [
