@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
+    protected $fillable = [
+        'contacts', 'account', 'user_id', 'tender_id'
+    ];
+
     protected $casts = [
         'details' => 'array',
         'is_deleted' => 'boolean'
