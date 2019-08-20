@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tender extends Model
 {
+    protected $fillable = [
+        'details', 'status', 'expiry'
+    ];
 
     protected $casts = [
         'details' => 'array',
