@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected $fillable = [
+        'details', 'supplier_id', 'tender_id'
+    ];
+
     protected $casts = [
         'details' => 'array',
         'delivered' => 'boolean',
