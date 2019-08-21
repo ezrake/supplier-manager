@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
+    protected $fillable = [
+        'order_id', 'amount', 'transaction_details'
+    ];
 
     protected $casts = [
         'transaction_details' => 'array',
