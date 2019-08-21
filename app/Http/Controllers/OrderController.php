@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Http\Order as OrderResource;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreOrder;
 
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the orders.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,12 +23,12 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created order in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreOrder  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOrder $request)
     {
         $validated =  $request->validate();
         $order = Order::create($validated);
@@ -39,9 +39,9 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified order.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
     public function show(Order $order)
@@ -53,13 +53,13 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified order in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \App\Http\Requests\StoreOrder  $request
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(StoreOrder $request, Order $order)
     {
         $validated = $request->validate();
         $order->fill($validated);
@@ -71,9 +71,9 @@ class OrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified order from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
     public function destroy(Order $order)

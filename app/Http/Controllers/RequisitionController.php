@@ -9,7 +9,7 @@ use App\Http\Requests\StoreRequisition;
 class RequisitionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the requisitions.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,9 +23,9 @@ class RequisitionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created requisition in storage.
      *
-     * @param  StoreRequisition  $request
+     * @param  \App\Http\Requests\StoreRequisition  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequisition $request)
@@ -39,9 +39,9 @@ class RequisitionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified requisition.
      *
-     * @param  \App\Requisition  $requisition
+     * @param  \App\Models\Requisition  $requisition
      * @return \Illuminate\Http\Response
      */
     public function show(Requisition $requisition)
@@ -53,10 +53,10 @@ class RequisitionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified requisition in storage.
      *
-     * @param  StoreRequisition  $request
-     * @param  \App\Requisition  $requisition
+     * @param  \App\Http\Requests\StoreRequisition  $request
+     * @param  \App\Models\Requisition  $requisition
      * @return \Illuminate\Http\Response
      */
     public function update(StoreRequisition $request, Requisition $requisition)
@@ -71,9 +71,9 @@ class RequisitionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified requisition from storage.
      *
-     * @param  \App\Requisition  $requisition
+     * @param  \App\Models\Requisition  $requisition
      * @return \Illuminate\Http\Response
      */
     public function destroy(Requisition $requisition)

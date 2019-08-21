@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Tender;
 use App\Http\Resources\Tender as TenderResource;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreTender;
 
 class TenderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the tenders.
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,9 +23,9 @@ class TenderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created tender in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreTender  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreTender $request)
@@ -40,9 +39,9 @@ class TenderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified tender.
      *
-     * @param  \App\Tender  $tender
+     * @param  \App\Models\Tender  $tender
      * @return \Illuminate\Http\Response
      */
     public function show(Tender $tender)
@@ -54,10 +53,10 @@ class TenderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the tender resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tender  $tender
+     * @param  \App\Http\Requests\StoreTender  $request
+     * @param  \App\Models\Tender  $tender
      * @return \Illuminate\Http\Response
      */
     public function update(StoreTender $request, Tender $tender)
@@ -72,9 +71,9 @@ class TenderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified tender from storage.
      *
-     * @param  \App\Tender  $tender
+     * @param  \App\Models\Tender  $tender
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tender $tender)

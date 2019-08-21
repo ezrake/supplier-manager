@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Http\Resources\Payments as PaymentResource;
-use Illuminate\Http\StorePayments;
+use App\Http\Requests\StorePayments;
 
 class PaymentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the payments.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,9 +23,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created payment in storage.
      *
-     * @param  \Illuminate\Http\StorePayments  $request
+     * @param  \App\Http\Requests\StorePayments  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StorePayments $request)
@@ -39,9 +39,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified payment.
      *
-     * @param  \App\Payment  $payment
+     * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
     public function show(Payment $payment)
@@ -53,10 +53,10 @@ class PaymentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified payment in storage.
      *
-     * @param  \Illuminate\Http\StorePayments  $request
-     * @param  \App\Payment  $payment
+     * @param  \App\Http\Requests\StorePayments  $request
+     * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
     public function update(StorePayments $request, Payment $payment)
@@ -71,9 +71,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified payment from storage.
      *
-     * @param  \App\Payment  $payment
+     * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
     public function destroy(Payment $payment)
