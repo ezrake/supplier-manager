@@ -23,8 +23,8 @@ class Supplier extends JsonResource
             'orders' => OrderResource::collection($this->whenLoaded('orders')),
             'address' => $this->address,
             'details' => $this->details,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
             'deletedAt' => $this->deleted_at
         ];
     }
