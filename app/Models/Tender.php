@@ -12,13 +12,13 @@ class Tender extends Model
 
     protected $casts = [
         'details' => 'array',
-        'is_deleted' => 'boolean'
     ];
 
     protected $dates = [
         'created_at',
         'updated_at',
-        'expiry'
+        'expiry',
+        'deleted_at'
     ];
 
     public function supplier()

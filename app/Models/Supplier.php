@@ -11,13 +11,13 @@ class Supplier extends Model
     ];
 
     protected $casts = [
-        'details' => 'array',
-        'is_deleted' => 'boolean'
+        'details' => 'array'
     ];
 
     protected $dates = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at'
     ];
 
     public function user()

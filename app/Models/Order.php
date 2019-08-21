@@ -13,12 +13,12 @@ class Order extends Model
     protected $casts = [
         'details' => 'array',
         'delivered' => 'boolean',
-        'is_deleted' => 'boolean'
     ];
 
     protected $dates = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at'
     ];
 
     public function supplier()
