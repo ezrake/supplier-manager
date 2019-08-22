@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tender extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'details', 'status', 'expiry'
     ];
@@ -18,7 +21,6 @@ class Tender extends Model
         'created_at',
         'updated_at',
         'expiry',
-        'deleted_at'
     ];
 
     public function supplier()
