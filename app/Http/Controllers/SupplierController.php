@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSupplier;
+use Illuminate\Http\Request;
+use App\Http\Resources\Order as OrderResource;
 use App\Models\Supplier;
 use App\Http\Resources\Supplier as SupplierResource;
+use App\Http\Resources\Tender as TenderResource;
 
 class SupplierController extends Controller
 {
@@ -16,9 +19,68 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::paginate(15);
-        $suppliers = SupplierResource::collection($suppliers);
+        $suppliersResource = SupplierResource::collection($suppliers);
 
-        return response($suppliers->toJson(), 200)
+        return response($suppliersResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Display a listing of the orders belonging to a supplier.
+     *
+     * @param \Illuminate\Http\Request
+     * @param \App\Models\Supplier
+     * @return \Illuminate\Http\Response
+     */
+    public function indexOrders(Request $request, Supplier $supplier)
+    {
+        $orders = $supplier->orders();
+
+        $validated = $request->validate([
+            'include' => 'sometimes|in:deleted',
+            'delivered' => 'sometimes|boolean',
+        ]);
+
+        isset($validated['include']) && $orders->withTrashed();
+        isset($validated['delivered']) && $orders->where('delivered', $validated['delivered']);
+
+        $ordersResource = OrderResource::collection($orders->paginate(15));
+
+        return response($ordersResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Display the tender belonging to a supplier.
+     *
+     * @param \Illuminate\Http\Request
+     * @param \App\Models\Supplier
+     * @return \Illuminate\Http\Response
+     */
+    public function indexTender(Request $request, Supplier $supplier)
+    {
+        $validated = $request->validate([
+            'include' => 'sometimes|in:orders'
+        ]);
+        $tender = $supplier->tender();
+
+        if (isset($validated['include']) && $validated['include'] == 'orders') {
+            $tender->with('orders');
+            $tenderResource = new TenderResource($tender->get());
+        } else {
+            $tenderResource = new TenderResource($tender->paginate(15));
+        }
+
+        return response($tenderResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    public function indexPayments(Supplier $supplier)
+    {
+        $payments = $supplier->payments()->orderBy('created_at')->paginate(15);
+        $paymentResource = PaymentsResource::collection($payments);
+
+        return response($paymentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -32,9 +94,9 @@ class SupplierController extends Controller
     {
         $validated = $request->validate();
         $supplier = Supplier::create($validated);
-        $supplier = new SupplierResource($supplier);
+        $supplierResource = new SupplierResource($supplier);
 
-        return response($supplier->toJson(), 200)
+        return response($supplierResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -46,9 +108,9 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        $supplier = new SupplierResource($supplier);
+        $supplierResource = new SupplierResource($supplier);
 
-        return response($supplier->toJson(), 200)
+        return response($supplierResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -64,9 +126,9 @@ class SupplierController extends Controller
         $validated = $request->validate();
         $supplier->fill($validated);
         $supplier->save();
-        $supplier = new SupplierResource($supplier);
+        $supplierResource = new SupplierResource($supplier);
 
-        return response($supplier->toJson(), 200)
+        return response($supplierResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 

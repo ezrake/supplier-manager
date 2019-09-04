@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Http\Resources\Department as DepartmentResource;
+use App\Http\Resources\Requisition as RequisitionResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
@@ -16,9 +18,41 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = Department::paginate(15);
-        $departments = DepartmentResource::collection($departments);
+        $departmentsResource = DepartmentResource::collection($departments);
 
-        return response($departments->toJson(), 200)
+        return response($departmentsResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Display a listing of the requisitions under the department.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexRequisitions(Request $request, Department $department)
+    {
+        $dbQuery = $department->requisitions();
+
+        $validated = $request->validate([
+            'summary' => 'sometimes|boolean',
+            'fields' => 'sometimes|fieldsIn:id,items,department_id,created_at,status,order_id',
+            'status' => 'sometimes|in:waiting,approved,rejected,delivered'
+        ]);
+
+        if (isset($validated['summary']) && $validated['summary']) {
+            $dbQuery->addSelect(DB::raw('status, count(*) as amount'));
+            $requisitionSummary = $dbQuery->groupBy('status')->get();
+
+            return response(json_encode($requisitionSummary), 200)
+                ->header('Content-Type', 'application/json');
+        }
+        //Add columns and status to  database query if they exist in query string
+        isset($validated['fields']) && $dbQuery->addSelect(explode(',', $validated['fields']));
+        isset($validated['status']) && $dbQuery->where('status', $validated['status']);
+
+        $requisitionsResource = RequisitionResource::collection($dbQuery->paginate(10));
+
+        return response($requisitionsResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -34,9 +68,9 @@ class DepartmentController extends Controller
             'name' => 'required|unique:departments|max:255'
         ]);
         $department = Department::create($validated);
-        $department = new DepartmentResource($department);
+        $departmentResource = new DepartmentResource($department);
 
-        return response($department->toJson(), 200)
+        return response($departmentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -48,9 +82,9 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        $department = new DepartmentResource($department);
+        $departmentResource = new DepartmentResource($department);
 
-        return response($department->toJson(), 200)
+        return response($departmentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -68,9 +102,9 @@ class DepartmentController extends Controller
         ]);
         $department->name = $validated['name'];
         $department->save();
-        $department = new DepartmentResource($department);
+        $departmentResource = new DepartmentResource($department);
 
-        return response($department->toJson(), 200)
+        return response($departmentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 

@@ -16,9 +16,9 @@ class PaymentController extends Controller
     public function index()
     {
         $payments = Payment::paginate(15);
-        $payments = PaymentResource::collection($payments);
+        $paymentsResource = PaymentResource::collection($payments);
 
-        return response($payments->toJson(), 200)
+        return response($paymentsResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -32,9 +32,9 @@ class PaymentController extends Controller
     {
         $validated = $request->validate();
         $payment = Payment::create($validated);
-        $payment = new PaymentResource($payment);
+        $paymentResource = new PaymentResource($payment);
 
-        return response($payment->toJson(), 200)
+        return response($paymentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -46,9 +46,9 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        $payment = new PaymentResource($payment);
+        $paymentResource = new PaymentResource($payment);
 
-        return response($payment->toJson(), 200)
+        return response($paymentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -64,9 +64,9 @@ class PaymentController extends Controller
         $validated = $request->validate();
         $payment->fill($validated);
         $payment->save();
-        $payment = new PaymentResource($payment);
+        $paymentResource = new PaymentResource($payment);
 
-        return response($payment->toJson(), 200)
+        return response($paymentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 

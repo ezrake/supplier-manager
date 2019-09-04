@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Requisition;
 use App\Http\Resources\Requisition as RequisitionResource;
 use App\Http\Requests\StoreRequisition;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RequisitionController extends Controller
 {
@@ -13,12 +15,31 @@ class RequisitionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $requisitions = Requisition::paginate(15);
-        $requisitions = RequisitionResource::collection($requisitions);
+        $requisition = new Requisition();
+        $dbQuery = $requisition->newQuery();
 
-        return response($requisitions->toJson(), 200)
+        $validated = $request->validate([
+            'summary' => 'sometimes|boolean',
+            'fields' => 'sometimes|fieldsIn:id,items,department_id,created_at,status,order_id',
+            'status' => 'sometimes|in:waiting,approved,rejected,delivered',
+        ]);
+
+        if (isset($validated['summary']) && $validated['summary']) {
+            $dbQuery->addSelect(DB::raw('status, count(*) as amount'));
+            $requisitionSummary = $dbQuery->groupBy('status')->get();
+
+            return response(json_encode($requisitionSummary), 200)
+                ->header('Content-Type', 'application/json');
+        }
+        //Add columns and status to  database query if they exist in query string
+        isset($validated['fields']) && $dbQuery->addSelect(explode(',', $validated['fields']));
+        isset($validated['status']) && $dbQuery->where('status', $validated['status']);
+
+        $requisitionsResource = RequisitionResource::collection($dbQuery->paginate(10));
+
+        return response($requisitionsResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -32,9 +53,9 @@ class RequisitionController extends Controller
     {
         $validated = $request->validate();
         $requisition = Requisition::create($validated);
-        $requisition = new RequisitionResource($requisition);
+        $requisitionResource = new RequisitionResource($requisition);
 
-        return response($requisition->toJson(), 200)
+        return response($requisitionResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -46,9 +67,9 @@ class RequisitionController extends Controller
      */
     public function show(Requisition $requisition)
     {
-        $requisition = new RequisitionResource($requisition);
+        $requisitionResource = new RequisitionResource($requisition);
 
-        return response($requisition->toJson(), 200)
+        return response($requisitionResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -64,9 +85,9 @@ class RequisitionController extends Controller
         $validated = $request->validate();
         $requisition->fill($validated);
         $requisition->save();
-        $requisition = new RequisitionResource($requisition);
+        $requisitionResource = new RequisitionResource($requisition);
 
-        return response($requisition->toJson(), 200)
+        return response($requisitionResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Order as OrderResource;
 use App\Http\Requests\StoreOrder;
+use App\Http\Resources\Payments as PaymentResource;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -13,12 +15,30 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::paginate(15);
-        $orders = OrderResource::collection($orders);
+        $validated = $request->validate([
+            'delivered' => 'sometimes|boolean'
+        ]);
+        $order = new Order();
+        $dbQuery = $order->newQuery();
 
-        return response($orders->toJson(), 200)
+        isset($validated['delivered']) && $dbQuery->where('delivered', $validated['delivered']);
+
+        $orders = $dbQuery->paginate(15);
+        $ordersResource = OrderResource::collection($orders);
+
+        return response($ordersResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    public function indexPayments(Order $order)
+    {
+        $payments = $order->payments();
+
+        $paymentResource = PaymentResource::collection($payments->paginate(15));
+
+        return response($paymentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -32,9 +52,9 @@ class OrderController extends Controller
     {
         $validated =  $request->validate();
         $order = Order::create($validated);
-        $order = new OrderResource($order);
+        $orderResource = new OrderResource($order);
 
-        return response($order->toJson(), 200)
+        return response($orderResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -46,9 +66,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $order = new OrderResource($order);
+        $orderResource = new OrderResource($order);
 
-        return response($order->toJson(), 200)
+        return response($orderResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -64,9 +84,9 @@ class OrderController extends Controller
         $validated = $request->validate();
         $order->fill($validated);
         $order->save();
-        $order = new OrderResource($order);
+        $orderResource = new OrderResource($order);
 
-        return response($order->toJson, 200)
+        return response($orderResource->toJson, 200)
             ->header('Content-Type', 'application/json');
     }
 

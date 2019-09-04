@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Tender;
 use App\Http\Resources\Tender as TenderResource;
 use App\Http\Requests\StoreTender;
+use App\Http\Resources\Payments as PaymentResource;
+use App\Http\Resources\Orders as OrderResource;
+use Illuminate\Http\Request;
 
 class TenderController extends Controller
 {
@@ -16,9 +19,35 @@ class TenderController extends Controller
     public function index()
     {
         $tenders = Tender::paginate(15);
-        $tenders = TenderResource($tenders);
+        $tendersResource = TenderResource($tenders);
 
-        return response($tenders->toJson(), 200)
+        return response($tendersResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    public function indexOrders(Request $request, Tender $tender)
+    {
+        $validated = $request->validate([
+            'include' => 'sometimes|in:deleted',
+            'delivered' => 'sometimes|boolean'
+        ]);
+        $orders = $tender->orders();
+
+        isset($validated['include']) && $orders->withTrashed();
+        isset($validated['delivered']) && $orders->where('delivered', $validated['delivered']);
+
+        $orderResource = OrderResource::collection($orders->paginate(15));
+
+        return response($orderResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    public function indexPayments(Tender $tender)
+    {
+        $payments = $tender->payments();
+        $paymentResource = PaymentResource::collection($payments->paginate(15));
+
+        return response($paymentResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -32,9 +61,9 @@ class TenderController extends Controller
     {
         $validated = $request->validate();
         $tender = Tender::create($validated);
-        $tender = new TenderResource($tender);
+        $tenderResource = new TenderResource($tender);
 
-        return response($tender->toJson(), 200)
+        return response($tenderResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -46,9 +75,9 @@ class TenderController extends Controller
      */
     public function show(Tender $tender)
     {
-        $tender = new TenderResource($tender);
+        $tenderResource = new TenderResource($tender);
 
-        return response($tender->toJson(), 200)
+        return response($tenderResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
@@ -64,9 +93,9 @@ class TenderController extends Controller
         $validated = $request->validate();
         $tender->fill($validated);
         $tender->save();
-        $tender = new TenderResource($tender);
+        $tenderResource = new TenderResource($tender);
 
-        return response($tender->toJson(), 200)
+        return response($tenderResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
