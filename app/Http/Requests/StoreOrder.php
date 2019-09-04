@@ -27,7 +27,7 @@ class StoreOrder extends FormRequest
             'details' => 'required',
             'details.*.amount' => 'required|alpha_num',
             'details.*.description' => 'required|alpha_num',
-            'supplier_id' => 'required|exists:suppliers,id',
+            'supplier_id' => 'required|exists:suppliers,id|belongsTo:tender_id',
             'tender_id' => 'required|exists:tenders,id',
         ];
     }
