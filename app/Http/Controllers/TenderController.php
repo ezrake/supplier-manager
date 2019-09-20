@@ -36,7 +36,10 @@ class TenderController extends Controller
         isset($validated['include']) && $orders->withTrashed();
         isset($validated['delivered']) && $orders->where('delivered', $validated['delivered']);
 
-        $orderResource = OrderResource::collection($orders->paginate(15));
+        $queryString = $request->query();
+        $orderResource = OrderResource::collection(
+            $orders->paginate(15)->appends($queryString)
+        );
 
         return response($orderResource->toJson(), 200)
             ->header('Content-Type', 'application/json');

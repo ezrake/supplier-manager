@@ -50,7 +50,9 @@ class DepartmentController extends Controller
         isset($validated['fields']) && $dbQuery->addSelect(explode(',', $validated['fields']));
         isset($validated['status']) && $dbQuery->where('status', $validated['status']);
 
-        $requisitionsResource = RequisitionResource::collection($dbQuery->paginate(10));
+        $queryString = $request->query();
+        $requisitions = $dbQuery->paginate(10)->appends($queryString);
+        $requisitionsResource = RequisitionResource::collection($requisitions);
 
         return response($requisitionsResource->toJson(), 200)
             ->header('Content-Type', 'application/json');

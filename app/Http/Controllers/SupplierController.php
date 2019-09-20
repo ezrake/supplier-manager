@@ -34,17 +34,19 @@ class SupplierController extends Controller
      */
     public function indexOrders(Request $request, Supplier $supplier)
     {
-        $orders = $supplier->orders();
-
         $validated = $request->validate([
             'include' => 'sometimes|in:deleted',
             'delivered' => 'sometimes|boolean',
         ]);
+        $orders = $supplier->orders();
+        $queryString = $request->query();
 
         isset($validated['include']) && $orders->withTrashed();
         isset($validated['delivered']) && $orders->where('delivered', $validated['delivered']);
 
-        $ordersResource = OrderResource::collection($orders->paginate(15));
+        $ordersResource = OrderResource::collection(
+            $orders->paginate(15)->appends($queryString)
+        );
 
         return response($ordersResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
@@ -68,7 +70,8 @@ class SupplierController extends Controller
             $tender->with('orders');
             $tenderResource = new TenderResource($tender->get());
         } else {
-            $tenderResource = new TenderResource($tender->paginate(15));
+            $queryString = $request->query();
+            $tenderResource = new TenderResource($tender->paginate(15)->appends($queryString));
         }
 
         return response($tenderResource->toJson(), 200)

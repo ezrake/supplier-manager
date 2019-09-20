@@ -25,7 +25,8 @@ class OrderController extends Controller
 
         isset($validated['delivered']) && $dbQuery->where('delivered', $validated['delivered']);
 
-        $orders = $dbQuery->paginate(15);
+        $queryString = $request->query();
+        $orders = $dbQuery->paginate(15)->appends($queryString);
         $ordersResource = OrderResource::collection($orders);
 
         return response($ordersResource->toJson(), 200)
