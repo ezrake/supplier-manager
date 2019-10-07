@@ -16,11 +16,12 @@ class Requisition extends JsonResource
     {
         return [
             'id' => $this->id,
-            'department' => $request::root() . '/department/' . $this->id,
             'items' => $this->items,
             'status' => $this->status,
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'updatedAt' => $this->updated_at,
+            'department' => "/departments/$this->department_id",
+            'order' => "/orders/$this->order_id",
         ];
     }
 }

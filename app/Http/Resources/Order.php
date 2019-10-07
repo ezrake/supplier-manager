@@ -18,11 +18,11 @@ class Order extends JsonResource
             'id' => $this->id,
             'details' => $this->details,
             'delivered' => $this->delivered,
-            'supplier' => $this->whenLoaded('supplier'),
-            'payment' => $this->payments,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'deletedAt' => $this->deleted_at
+            'deletedAt' => $this->deleted_at,
+            'supplier' => "/suppliers/$this->supplier_id",
+            'payments' => "/orders/$this->id/payments"
         ];
     }
 }
