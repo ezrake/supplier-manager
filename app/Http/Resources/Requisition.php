@@ -14,7 +14,7 @@ class Requisition extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = [
             'id' => $this->id,
             'items' => $this->items,
             'status' => $this->status,
@@ -26,5 +26,19 @@ class Requisition extends JsonResource
                 "/api/orders/$this->order_id"
             )
         ];
+        if ($request->has('fields')) {
+            $fields = $request->input('fields');
+            $fields = \str_replace(
+                ['created_at', 'updated_at', 'department_id', 'order_id'],
+                ['createdAt', 'updatedAt', 'department', 'order'],
+                $fields
+            );
+            $fields = \explode(',', $fields);
+            $fields = array_flip($fields);
+
+            return array_intersect_key($data, $fields);
+        } else {
+            return $data;
+        }
     }
 }
