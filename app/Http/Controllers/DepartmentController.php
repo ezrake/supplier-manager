@@ -36,7 +36,7 @@ class DepartmentController extends Controller
         $validated = $request->validate([
             'summary' => 'sometimes|boolean',
             'fields' => 'sometimes|fieldsIn:id,items,department_id,created_at,status,order_id',
-            'status' => 'sometimes|in:waiting,approved,rejected,delivered'
+            'status' => 'sometimes|in:waiting,rejected,approved,assigned,delivered'
         ]);
 
         if (isset($validated['summary']) && $validated['summary']) {
