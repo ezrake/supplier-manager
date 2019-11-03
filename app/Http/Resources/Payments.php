@@ -20,7 +20,7 @@ class Payments extends JsonResource
             'transanctionDetails' => $this->transaction_details,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'order' => "/orders/$this->order_id",
+            'order' => "/api/orders/$this->order_id",
         ];
     }
 }

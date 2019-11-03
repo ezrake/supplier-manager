@@ -21,8 +21,8 @@ class Order extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'deletedAt' => $this->deleted_at,
-            'supplier' => "/suppliers/$this->supplier_id",
-            'payments' => "/orders/$this->id/payments"
+            'supplier' => "/api/suppliers/$this->supplier_id",
+            'payments' => "/api/orders/$this->id/payments"
         ];
     }
 }
