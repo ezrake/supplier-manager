@@ -20,8 +20,11 @@ class Requisition extends JsonResource
             'status' => $this->status,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'department' => "/departments/$this->department_id",
-            'order' => "/orders/$this->order_id",
+            'department' => "/api/departments/$this->department_id",
+            'order' => $this->when(
+                !($this->status == 'waiting' || $this->status == 'rejected'),
+                "/api/orders/$this->order_id"
+            )
         ];
     }
 }
