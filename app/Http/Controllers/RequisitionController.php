@@ -22,7 +22,7 @@ class RequisitionController extends Controller
 
         $validated = $request->validate([
             'summary' => 'sometimes|boolean',
-            'fields' => 'sometimes|fieldsIn:id,items,department_id,created_at,status,order_id',
+            'fields' => 'sometimes|fieldsIn:id,items,department_id,created_at,updated_at,status,order_id',
             'status' => 'sometimes|in:waiting,rejected,approved,assigned,delivered',
         ]);
 
