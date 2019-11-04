@@ -39,7 +39,7 @@ $factory->state(Requisition::class, 'approved', function ($faker) {
 
 $factory->state(Requisition::class, 'assigned', function ($faker) {
     return [
-        'status' => 'approved',
+        'status' => 'assigned',
         'order_id' => $faker->randomElement(
             App\Models\Order::where('delivered', '<>', 'true')
                 ->get()
