@@ -53,7 +53,7 @@ class RequisitionController extends Controller
      */
     public function store(StoreRequisition $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $requisition = Requisition::create($validated);
         $requisitionResource = new RequisitionResource($requisition);
 
@@ -84,7 +84,7 @@ class RequisitionController extends Controller
      */
     public function update(StoreRequisition $request, Requisition $requisition)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $requisition->fill($validated);
         $requisition->save();
         $requisitionResource = new RequisitionResource($requisition);

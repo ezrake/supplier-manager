@@ -30,7 +30,7 @@ class PaymentController extends Controller
      */
     public function store(StorePayments $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $payment = Payment::create($validated);
         $paymentResource = new PaymentResource($payment);
 
@@ -61,7 +61,7 @@ class PaymentController extends Controller
      */
     public function update(StorePayments $request, Payment $payment)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $payment->fill($validated);
         $payment->save();
         $paymentResource = new PaymentResource($payment);

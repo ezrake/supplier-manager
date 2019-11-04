@@ -62,7 +62,7 @@ class TenderController extends Controller
      */
     public function store(StoreTender $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $tender = Tender::create($validated);
         $tenderResource = new TenderResource($tender);
 
@@ -93,7 +93,7 @@ class TenderController extends Controller
      */
     public function update(StoreTender $request, Tender $tender)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $tender->fill($validated);
         $tender->save();
         $tenderResource = new TenderResource($tender);

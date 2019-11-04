@@ -51,7 +51,7 @@ class OrderController extends Controller
      */
     public function store(StoreOrder $request)
     {
-        $validated =  $request->validate();
+        $validated =  $request->validated();
         $order = Order::create($validated);
         $orderResource = new OrderResource($order);
 
@@ -82,7 +82,7 @@ class OrderController extends Controller
      */
     public function update(StoreOrder $request, Order $order)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $order->fill($validated);
         $order->save();
         $orderResource = new OrderResource($order);

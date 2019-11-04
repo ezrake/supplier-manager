@@ -95,7 +95,7 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplier $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $supplier = Supplier::create($validated);
         $supplierResource = new SupplierResource($supplier);
 
@@ -126,7 +126,7 @@ class SupplierController extends Controller
      */
     public function update(StoreSupplier $request, Supplier $supplier)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
         $supplier->fill($validated);
         $supplier->save();
         $supplierResource = new SupplierResource($supplier);
