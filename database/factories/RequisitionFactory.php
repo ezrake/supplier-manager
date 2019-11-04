@@ -9,10 +9,8 @@ $factory->define(Requisition::class, function (Faker $faker) {
     $items = [];
     for ($i = 0; $i < 10; ++$i) {
         array_push($items, [
-            $faker->word => [
-                'name' => $faker->word,
-                'amount' => $faker->randomDigit
-            ]
+            'name' => $faker->word,
+            'amount' => $faker->randomDigit
         ]);
     }
 
