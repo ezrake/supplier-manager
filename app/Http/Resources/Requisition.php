@@ -23,7 +23,8 @@ class Requisition extends JsonResource
             'department' => "/api/departments/$this->department_id",
             'order' => $this->when(
                 !($this->status == 'waiting' || $this->status == 'rejected'),
-                "/api/orders/$this->order_id"
+                "/api/orders/$this->order_id",
+                null
             )
         ];
         if ($request->has('fields')) {
