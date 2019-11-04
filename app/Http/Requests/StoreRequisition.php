@@ -13,7 +13,7 @@ class StoreRequisition extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class StoreRequisition extends FormRequest
             'items' => 'required',
             'items.*.name' => 'required|alpha|max:255',
             'items.*.amount' => 'required',
-            'status' => 'required|alpha|in:waiting, rejected, approved, assigned, delivered',
+            'status' => 'required|alpha|in:waiting,rejected,approved,assigned,delivered',
         ];
     }
 }
