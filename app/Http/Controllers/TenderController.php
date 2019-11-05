@@ -19,7 +19,7 @@ class TenderController extends Controller
     public function index()
     {
         $tenders = Tender::paginate(15);
-        $tendersResource = TenderResource($tenders);
+        $tendersResource = TenderResource::collection($tenders);
 
         return response($tendersResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
@@ -76,8 +76,16 @@ class TenderController extends Controller
      * @param  \App\Models\Tender  $tender
      * @return \Illuminate\Http\Response
      */
-    public function show(Tender $tender)
+    public function show(Request $request, Tender $tender)
     {
+        $validated = $request->validate([
+            'include' => 'sometimes|fieldsIn:orders,payments'
+        ]);
+        if (isset($validated['include'])) {
+            $includes = \explode(',', $validated['include']);
+            $tender->load($includes);
+        }
+
         $tenderResource = new TenderResource($tender);
 
         return response($tenderResource->toJson(), 200)
