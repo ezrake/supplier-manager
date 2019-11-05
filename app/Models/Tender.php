@@ -35,6 +35,6 @@ class Tender extends Model
 
     public function payments()
     {
-        return $this->hasManyThrough('App\Models\Payment', 'App\Models\Orders');
+        return $this->hasManyThrough('App\Models\Payment', 'App\Models\Order');
     }
 }
