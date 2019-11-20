@@ -26,7 +26,7 @@ class StoreOrder extends FormRequest
         return [
             'details' => 'required',
             'details.*.amount' => 'required|alpha_num',
-            'details.*.description' => 'required|alpha_num',
+            'details.*.description' => 'required|regex:/^[a-zA-Z0-9,.\-\s]+$/',
             'supplier_id' => 'required|exists:suppliers,id|belongsTo:tender_id',
             'tender_id' => 'required|exists:tenders,id',
         ];

@@ -87,7 +87,7 @@ class OrderController extends Controller
         $order->save();
         $orderResource = new OrderResource($order);
 
-        return response($orderResource->toJson, 200)
+        return response($orderResource->toJson(), 200)
             ->header('Content-Type', 'application/json');
     }
 
