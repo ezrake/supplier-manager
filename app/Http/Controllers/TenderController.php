@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Tender;
 use App\Http\Resources\Tender as TenderResource;
 use App\Http\Requests\StoreTender;
-use App\Http\Resources\Payments as PaymentResource;
-use App\Http\Resources\Orders as OrderResource;
+use App\Http\Resources\Payment as PaymentResource;
+use App\Http\Resources\Order as OrderResource;
 use Illuminate\Http\Request;
 
 class TenderController extends Controller

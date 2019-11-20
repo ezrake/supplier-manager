@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Requests\StoreOrder;
 use App\Http\Resources\Order as OrderResource;
-use App\Http\Resources\Payments as PaymentResource;
+use App\Http\Resources\Payment as PaymentResource;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

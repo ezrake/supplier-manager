@@ -3,6 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Tender as TenderResource;
+use App\Http\Resources\Order as OrderResource;
 
 class Supplier extends JsonResource
 {

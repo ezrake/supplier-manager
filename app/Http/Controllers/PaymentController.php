@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
-use App\Http\Resources\Payments as PaymentResource;
+use App\Http\Resources\Payment as PaymentResource;
 use App\Http\Requests\StorePayments;
 
 class PaymentController extends Controller

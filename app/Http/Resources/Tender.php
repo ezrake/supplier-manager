@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Order as OrderResource;
-use App\Http\Resources\Payments as PaymentResource;
+use App\Http\Resources\Payment as PaymentResource;
 
 class Tender extends JsonResource
 {
