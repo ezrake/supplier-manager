@@ -33,20 +33,37 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('belongsTo', function ($attribute, $value, $parameters, $validator) {
-            //get table name eg supplier_id returns suppliers
+            //get the table name of the child table
             $table = \explode('_', $attribute)[0] . 's';
 
             try {
-                //get the foreign key of child table
+                // get the foreign key of parent table
+                //from the child table in the database
                 $id = \Illuminate\Support\Facades\DB::table($table)
                     ->select($parameters[0])
                     ->where('id', $value)
-                    ->first()->$parameters[0];
+                    ->first();
             } catch (\Exception $e) {
                 return false;
             }
-            //compare the given foreign key with that of child table
-            return $id === $validator->getValue($parameters[0]) ? true : false;
+            $id = array_values(get_object_vars($id))[0];
+
+            $validator->addReplacer(
+                'belongsTo',
+                function ($message, $attribute, $rule, $parameters) {
+                    $child = \explode('_', $attribute)[0];
+                    $parent = \explode('_', $parameters[0])[0];
+                    return "The given $child does not belong to $parent";
+                }
+            );
+
+            //compare whether the foreign key from the database (the owner)
+            //matches with that provided by the user
+            return $id === array_get(
+                $validator->getData(),
+                $parameters[0],
+                null
+            ) ? true : false;
         });
     }
 }
