@@ -15,7 +15,7 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('user_id', false, true);
+            $table->bigInteger('user_id', false, true)->unique();
             $table->integer('tender_id', false, true);
             $table->json('contacts');
             $table->json('account');
