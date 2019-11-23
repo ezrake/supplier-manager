@@ -9,10 +9,8 @@ $factory->define(Requisition::class, function (Faker $faker) {
     $items = [];
     for ($i = 0; $i < 10; ++$i) {
         array_push($items, [
-            $faker->word => [
-                'name' => $faker->word,
-                'amount' => $faker->randomDigit
-            ]
+            'name' => $faker->word,
+            'amount' => $faker->randomDigit
         ]);
     }
 
@@ -39,7 +37,7 @@ $factory->state(Requisition::class, 'approved', function ($faker) {
 
 $factory->state(Requisition::class, 'assigned', function ($faker) {
     return [
-        'status' => 'approved',
+        'status' => 'assigned',
         'order_id' => $faker->randomElement(
             App\Models\Order::where('delivered', '<>', 'true')
                 ->get()

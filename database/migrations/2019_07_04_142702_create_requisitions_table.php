@@ -18,7 +18,7 @@ class CreateRequisitionsTable extends Migration
             $table->integer('department_id', false, true);
             $table->json('items');
             $table->enum('status', [
-                'waiting', 'approved',
+                'waiting', 'approved', 'assigned',
                 'rejected', 'delivered'
             ]);
             $table->timestamps();

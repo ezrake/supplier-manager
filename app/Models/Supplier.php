@@ -3,17 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
+    use SoftDeletes;
+
+    protected $fillable = [
+        'contacts', 'account', 'user_id', 'tender_id'
+    ];
+
     protected $casts = [
-        'details' => 'array',
-        'is_deleted' => 'boolean'
+        'contacts' => 'array',
+        'account' => 'array'
     ];
 
     protected $dates = [
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     public function user()

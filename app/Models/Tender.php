@@ -3,19 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tender extends Model
 {
+    use SoftDeletes;
+
+    protected $fillable = [
+        'details', 'status', 'expiry'
+    ];
 
     protected $casts = [
         'details' => 'array',
-        'is_deleted' => 'boolean'
     ];
 
     protected $dates = [
         'created_at',
         'updated_at',
-        'expiry'
+        'expiry',
     ];
 
     public function supplier()
@@ -30,6 +35,6 @@ class Tender extends Model
 
     public function payments()
     {
-        return $this->hasManyThrough('App\Models\Payment', 'App\Models\Orders');
+        return $this->hasManyThrough('App\Models\Payment', 'App\Models\Order');
     }
 }

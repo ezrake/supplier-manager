@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Payment;
+use App\Http\Resources\Payment as PaymentResource;
+use App\Http\Requests\StorePayments;
+
+class PaymentController extends Controller
+{
+    /**
+     * Display a listing of the payments.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $payments = Payment::paginate(15);
+        $paymentsResource = PaymentResource::collection($payments);
+
+        return response($paymentsResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Store a newly created payment in storage.
+     *
+     * @param  \App\Http\Requests\StorePayments  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StorePayments $request)
+    {
+        $validated = $request->validated();
+        $payment = Payment::create($validated);
+        $paymentResource = new PaymentResource($payment);
+
+        return response($paymentResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Display the specified payment.
+     *
+     * @param  \App\Models\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Payment $payment)
+    {
+        $paymentResource = new PaymentResource($payment);
+
+        return response($paymentResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Update the specified payment in storage.
+     *
+     * @param  \App\Http\Requests\StorePayments  $request
+     * @param  \App\Models\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function update(StorePayments $request, Payment $payment)
+    {
+        $validated = $request->validated();
+        $payment->fill($validated);
+        $payment->save();
+        $paymentResource = new PaymentResource($payment);
+
+        return response($paymentResource->toJson(), 200)
+            ->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Remove the specified payment from storage.
+     *
+     * @param  \App\Models\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Payment $payment)
+    {
+        $payment->delete();
+        return response('', 200);
+    }
+}
