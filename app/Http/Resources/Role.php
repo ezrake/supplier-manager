@@ -15,6 +15,7 @@ class Role extends JsonResource
     public function toArray($request)
     {
         return [
+            'self' => "/api/roles/$this->id",
             "role" => $this->role
         ];
     }

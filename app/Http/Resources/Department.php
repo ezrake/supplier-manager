@@ -16,9 +16,10 @@ class Department extends JsonResource
     {
 
         return [
+            'self' => "/api/departments/$this->id",
             'id' => $this->id,
             'name' => $this->name,
-            'requisitions' => "/departments/$this->id/requisitions"
+            'requisitions' => "/api/departments/$this->id/requisitions"
         ];
     }
 }

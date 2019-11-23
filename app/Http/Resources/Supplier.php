@@ -18,6 +18,7 @@ class Supplier extends JsonResource
     public function toArray($request)
     {
         return [
+            'self' => "/api/suppliers/$this->id",
             'id' => $this->id,
             'user' => UserResource::collection(
                 $this->whenLoaded('users')

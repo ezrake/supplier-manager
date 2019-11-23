@@ -15,6 +15,7 @@ class Requisition extends JsonResource
     public function toArray($request)
     {
         $data = [
+            'self' => "/api/requisitions/$this->id",
             'id' => $this->id,
             'items' => $this->items,
             'status' => $this->status,
@@ -36,6 +37,7 @@ class Requisition extends JsonResource
             );
             $fields = \explode(',', $fields);
             $fields = array_flip($fields);
+            array_push($fields, 'self');
 
             return array_intersect_key($data, $fields);
         } else {

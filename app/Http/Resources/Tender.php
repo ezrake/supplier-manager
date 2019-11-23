@@ -17,6 +17,7 @@ class Tender extends JsonResource
     public function toArray($request)
     {
         return [
+            'self' => "/api/tenders/$this->id",
             'id' => $this->id,
             'details' => $this->details,
             'status' => $this->status,

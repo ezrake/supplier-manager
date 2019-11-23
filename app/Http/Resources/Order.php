@@ -15,6 +15,7 @@ class Order extends JsonResource
     public function toArray($request)
     {
         return [
+            'self' => "/api/orders/$this->id",
             'id' => $this->id,
             'details' => $this->details,
             'delivered' => $this->delivered,
