@@ -14,7 +14,8 @@ class Supplier extends Model
     ];
 
     protected $casts = [
-        'details' => 'array'
+        'contacts' => 'array',
+        'account' => 'array'
     ];
 
     protected $dates = [

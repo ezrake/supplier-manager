@@ -24,8 +24,8 @@ class Supplier extends JsonResource
             ),
             'tender' => TenderResource::collection($this->whenLoaded('tender')),
             'orders' => OrderResource::collection($this->whenLoaded('orders')),
-            'address' => $this->address,
-            'details' => $this->details,
+            'contacts' => $this->contacts,
+            'account' => $this->account,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'deletedAt' => $this->deleted_at
