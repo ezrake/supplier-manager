@@ -26,9 +26,9 @@ class StorePayments extends FormRequest
         return [
             'order_id' => 'required|exists:orders,id',
             'amount' => 'required|numeric',
-            'transaction_details.*.bank_account' => 'required|numeric',
-            'transaction_details.*.authorised_by' => 'required|alpha',
-            'transaction_details.*.type' => 'required|alpha',
+            'transaction_details.bank_account' => 'required|numeric',
+            'transaction_details.authorised_by' => 'required|regex:/^[a-zA-Z0-9.\-\s]+$/',
+            'transaction_details.type' => 'required|alpha',
         ];
     }
 }
