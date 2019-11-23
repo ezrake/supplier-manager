@@ -25,12 +25,12 @@ class StoreSupplier extends FormRequest
     {
         return [
             'contacts' => 'required',
-            'contacts.*.telephone' => 'required,',
-            'contacts.*.address' => 'required|alpha',
+            'contacts.telephone' => 'required',
+            'contacts.address' => 'required',
             'account' => 'required',
             'account.type' => 'required|alpha',
             'account.number' => 'required|numeric',
-            'account.name' => 'required|alpha',
+            'account.name' => 'required|regex:/^[\pL\s-]+$/u',
             'account.expirationDate' => 'required|date|after:tomorrow',
             'user_id' => 'required|exists:users,id',
             'tender_id' => 'required|exists:tenders,id',
