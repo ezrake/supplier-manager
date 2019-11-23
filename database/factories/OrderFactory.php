@@ -11,10 +11,9 @@ $factory->define(Order::class, function (Faker $faker) {
     //will be overwritten to summary of corresponding requisitions
     for ($i = 0; $i < 10; ++$i) {
         array_push($details, [
-            $faker->word => [
-                'amount' => $faker->randomDigit,
-                'description' => $faker->text(),
-            ]
+            'name' => $faker->word,
+            'amount' => $faker->randomDigit,
+            'description' => $faker->text(),
         ]);
     }
 
